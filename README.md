@@ -3,6 +3,7 @@
 A Leiningen plugin to populate the `:version` field of your lein project dynamically.
 
 [![Clojars Project](https://img.shields.io/clojars/v/lein-dynamic-version.svg)](https://clojars.org/lein-dynamic-version)
+[![Build Status](https://travis-ci.org/pelletier/lein-dynamic-version.svg?branch=master)](https://travis-ci.org/pelletier/lein-dynamic-version)
 
 ## Usage
 
