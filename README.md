@@ -7,7 +7,7 @@ A Leiningen plugin to populate the `:version` field of your lein project dynamic
 
 ## Usage
 
-Put `[lein-dynamic-version "0.1.0-SNAPSHOT"]` into the `:plugins` vector of your project.clj.
+Put `[lein-dynamic-version "0.1.0"]` (or the newest version) into the `:plugins` vector of your project.clj.
 From then on, dynamic-version will replace the `:version` field of the project automatically.
 
 ## How it works
