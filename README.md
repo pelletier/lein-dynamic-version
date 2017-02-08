@@ -2,6 +2,8 @@
 
 A Leiningen plugin to populate the `:version` field of your lein project dynamically.
 
+[![Clojars Project](https://img.shields.io/clojars/v/lein-dynamic-version.svg)](https://clojars.org/lein-dynamic-version)
+
 ## Usage
 
 Put `[lein-dynamic-version "0.1.0-SNAPSHOT"]` into the `:plugins` vector of your project.clj.
