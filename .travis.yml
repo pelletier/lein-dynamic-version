@@ -1,0 +1,13 @@
+language: clojure
+sudo: false
+jdk:
+  - oraclejdk8
+  - oraclejdk7
+  - openjdk7
+script: lein with-profile $CLOJURE test
+env:
+  matrix:
+    - CLOJURE=1.8.0
+    - CLOJURE=dev
+branches:
+  only: [master]
