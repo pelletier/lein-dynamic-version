@@ -1,16 +1,19 @@
 (ns lein-dynamic-version.plugin
   (:require [leiningen.core.main :as lein]
-            [clojure.string :as string]))
+            [clojure.string :as string])
+  (:import [java.io FileNotFoundException]))
+
+(def ^:dynamic get-env (fn [key] (System/getenv key)))
 
 (defn env-version [env-variable]
   (when env-variable
-    (System/getenv env-variable)))
+    (get-env env-variable)))
 
 (defn file-version [file-path]
   (when file-path
     (try
       (slurp file-path)
-      (catch java.io.FileNotFoundException _))))
+      (catch FileNotFoundException _))))
 
 (def loader-map
   {:env env-version
