@@ -1,5 +1,6 @@
 (ns lein-dynamic-version.t-plugin
-  (:require [lein-dynamic-version.plugin :as plugin])
+  (:require [lein-dynamic-version.plugin :as plugin]
+            [clojure.java.io :as io])
   (:import [clojure.lang ExceptionInfo]
            [java.io File])
   (:use [clojure.test]))
@@ -15,6 +16,12 @@
     (let [file (File/createTempFile "filename" ".txt")]
       (spit file "1.0.0")
       (is (= "1.0.0" (:version (plugin/middleware {:dynamic-version {:file (.getAbsolutePath file)}}))))))
+  (testing "load from resource"
+    (let [resource-name "lein-dynamic-version"
+          resource-version (-> (io/resource resource-name)
+                               slurp
+                               plugin/post-process)]
+      (is (= resource-version (:version (plugin/middleware {:dynamic-version {:resource resource-name}}))))))
   (testing "use default"
     (is (= "0.0.0" (:version (plugin/middleware {:version "0.0.0"})))))
   (testing "change order"

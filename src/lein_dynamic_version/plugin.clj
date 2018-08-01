@@ -1,6 +1,7 @@
 (ns lein-dynamic-version.plugin
   (:require [leiningen.core.main :as lein]
-            [clojure.string :as string])
+            [clojure.string :as string]
+            [clojure.java.io :as io])
   (:import [java.io FileNotFoundException]))
 
 (def ^:dynamic get-env (fn [key] (System/getenv key)))
@@ -15,8 +16,14 @@
       (slurp file-path)
       (catch FileNotFoundException _))))
 
+(defn resource-version [resource-name]
+  (some-> resource-name
+          io/resource
+          slurp))
+
 (def loader-map
   {:env env-version
+   :resource resource-version
    :file file-version
    :default identity})
 
@@ -42,7 +49,7 @@
 (defn middleware [project]
   (let [default-version (:version project)
         defaults {:default default-version
-                  :order [:env :file :default]}
+                  :order [:env :resource :file :default]}
         options (merge defaults (:dynamic-version project))
         version (compute-version options)]
     (if (nil? version)
