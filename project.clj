@@ -6,4 +6,5 @@
   :eval-in-leiningen true
   :repositories [["releases" {:url "https://clojars.org/repo" :creds :gpg}]]
   :profiles {:clojure-1.8.0 {:dependencies [[org.clojure/clojure "1.8.0"]]}
-             :clojure-dev {:dependencies [[org.clojure/clojure "1.9.0-alpha14"]]}})
+             :clojure-dev {:dependencies [[org.clojure/clojure "1.9.0-alpha14"]]}
+             :test {:resource-paths ["test/resources"]}})
