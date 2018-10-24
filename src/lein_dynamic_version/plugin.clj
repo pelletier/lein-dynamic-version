@@ -1,7 +1,8 @@
 (ns lein-dynamic-version.plugin
   (:require [leiningen.core.main :as lein]
             [clojure.string :as string])
-  (:import [java.io FileNotFoundException]))
+  (:import [java.io FileNotFoundException]
+           [java.nio.file Paths]))
 
 (def ^:dynamic get-env (fn [key] (System/getenv key)))
 
@@ -39,11 +40,19 @@
       (lein/debug "dynamic-version found version" (:version version-info) "from" (:loader version-info) (:option version-info))
       (:version version-info))))
 
+(defn resolve-filepath [project]
+  (let [root (:root project "")
+        file (get-in project [:dynamic-version :file])]
+    (if file
+      (assoc-in project [:dynamic-version :file]
+        (.toFile (Paths/get root (into-array String [file]))))
+      project)))
+
 (defn middleware [project]
   (let [default-version (:version project)
         defaults {:default default-version
                   :order [:env :file :default]}
-        options (merge defaults (:dynamic-version project))
+        options (merge defaults (:dynamic-version (resolve-filepath project)))
         version (compute-version options)]
     (if (nil? version)
       (lein/abort "dynamic-version cannot find version number with options" options)
